@@ -1,20 +1,3 @@
-// Callback para obter idade da página (usado no LRU)
-static int get_age_cb(int pid, int pagina, unsigned *page_age, void *user_data) {
-  so_t *so = user_data;
-  processo_t *p = so_proc_pelo_pid(so, pid);
-  if (!p) return 0;
-  return tabpag_get_age(p->tabpag, pagina, page_age);
-}
-// Imprime resumo de desempenho dos processos
-static void so_resumo_desempenho(so_t *self) {
-  console_printf("\n==== RESUMO DE DESEMPENHO ====");
-  processo_t *p = self->proc_list;
-  while (p) {
-    console_printf("PID %d: Falhas de página = %d, Último bloqueio = %d", p->pid, p->page_faults, p->blocked_until);
-    p = p->next;
-  }
-  console_printf("============================\n");
-}
 // so.c
 // sistema operacional
 // simulador de computador
@@ -140,6 +123,26 @@ static processo_t *so_proc_pelo_pid(so_t *self, int pid) {
   return NULL;
 }
 
+// Callback para obter idade da página (usado no LRU)
+static bool get_age_cb(int pid, int pagina, unsigned *page_age, void *user_data) {
+  so_t *so = user_data;
+  processo_t *p = so_proc_pelo_pid(so, pid);
+  if (!p) return false;
+  return tabpag_get_age(p->tabpag, pagina, page_age);
+}
+
+// Imprime resumo de desempenho dos processos (será usada em testes futuros)
+#if 0
+static void so_resumo_desempenho(so_t *self) {
+  console_printf("\n==== RESUMO DE DESEMPENHO ====");
+  processo_t *p = self->proc_list;
+  while (p) {
+    console_printf("PID %d: Falhas de página = %d, Último bloqueio = %d", p->pid, p->page_faults, p->blocked_until);
+    p = p->next;
+  }
+  console_printf("============================\n");
+}
+#endif
 
 // função de tratamento de interrupção (entrada no SO)
 static int so_trata_interrupcao(void *argC, int reg_A);
