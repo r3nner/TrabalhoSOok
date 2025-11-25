@@ -11,3 +11,7 @@ Cada pasta contém seus próprios artefatos (Makefile, fontes, programas montado
 
 
 ## Relatórios: 
+
+T2: https://docs.google.com/document/d/18NKJYKQzZJb-oac3osUUx5hzfQWFqeYVJZRywRNmGw4/edit?usp=sharing
+
+T3: 
